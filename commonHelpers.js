@@ -1,12 +1,29 @@
-import{S as d,i}from"./assets/vendor-46aac873.js";(function(){const r=document.createElement("link").relList;if(r&&r.supports&&r.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))o(e);new MutationObserver(e=>{for(const n of e)if(n.type==="childList")for(const s of n.addedNodes)s.tagName==="LINK"&&s.rel==="modulepreload"&&o(s)}).observe(document,{childList:!0,subtree:!0});function a(e){const n={};return e.integrity&&(n.integrity=e.integrity),e.referrerpolicy&&(n.referrerPolicy=e.referrerpolicy),e.crossorigin==="use-credentials"?n.credentials="include":e.crossorigin==="anonymous"?n.credentials="omit":n.credentials="same-origin",n}function o(e){if(e.ep)return;e.ep=!0;const n=a(e);fetch(e.href,n)}})();const u="41511602-ac1f0d864a13fd01c911f294b",m=document.querySelector(".search-form"),c=document.querySelector(".gallery"),f=document.querySelector(".search-input"),p=new d(".gallery a",{captionsData:"alt",captionDelay:250}),l=document.querySelector(".loader");l.style.display="none";m.addEventListener("submit",h);function h(t){t.preventDefault();const r=f.value.trim();if(!r){i.warning({title:"Warning!",message:"Please enter image name!",position:"topRight"});return}b(),l.style.display="block";const a=new URLSearchParams({key:u,q:r,image_type:"photo",orientation:"horizontal",safesearch:!0});fetch(`https://pixabay.com/api/?${a}`).then(o=>{if(l.style.display="none",!o.ok)throw new Error(o.status);return o.json()}).then(o=>{if(o.hits.length===0){i.error({message:"Sorry, there are no images matching your search query. Please try again!",position:"topRight"});return}y(o.hits),p.refresh()}).catch(o=>{console.error("Error fetching images:",o),i.error({message:"Failed to fetch images. Please try again later.",position:"topRight"})})}function y(t){t.forEach(r=>{const a=g(r);c.appendChild(a)})}function g(t){const r=document.createElement("div");return r.classList.add("card"),r.innerHTML=`
-    <a class="gallery-link" href="${t.largeImageURL}">
-        <img class="card-image" src="${t.webformatURL}" alt="${t.tags}" loading="lazy">
-      </a>
-      <div class="card-info">
-        <p class="card-text"><b>Likes:</b> ${t.likes}</p>
-        <p class="card-text"><b>Views:</b> ${t.views}</p>
-        <p class="card-text"><b>Comments:</b> ${t.comments}</p>
-        <p class="card-text"><b>Downloads:</b> ${t.downloads}</p>
-      </div>
-    `,r}function b(){c.innerHTML=""}
+import{i as f,S as m}from"./assets/vendor-46aac873.js";(function(){const e=document.createElement("link").relList;if(e&&e.supports&&e.supports("modulepreload"))return;for(const t of document.querySelectorAll('link[rel="modulepreload"]'))o(t);new MutationObserver(t=>{for(const l of t)if(l.type==="childList")for(const a of l.addedNodes)a.tagName==="LINK"&&a.rel==="modulepreload"&&o(a)}).observe(document,{childList:!0,subtree:!0});function s(t){const l={};return t.integrity&&(l.integrity=t.integrity),t.referrerpolicy&&(l.referrerPolicy=t.referrerpolicy),t.crossorigin==="use-credentials"?l.credentials="include":t.crossorigin==="anonymous"?l.credentials="omit":l.credentials="same-origin",l}function o(t){if(t.ep)return;t.ep=!0;const l=s(t);fetch(t.href,l)}})();const y=new URL("/goit-js-hw-11/assets/octagon-eaf41606.svg",self.location).href,g=new URL("/goit-js-hw-11/assets/x-c55d42bc.svg",self.location).href;function c(r=""){f.show({titleColor:"#FFF",titleSize:"16px",message:r,messageColor:"#FFF",messageSize:"16px",maxWidth:"462px",position:"topRight",backgroundColor:"#EF4040",iconUrl:y,progressBarColor:"#FFBEBE",timeout:5e3,targetFirst:!1,close:!1,buttons:[[`<button type="button" id="izi-close-button">
+                 <img src="${g}" alt="" width="16px" height="16px" />
+              </button>`,function(s,o){s.hide({},o,"buttonName")}]]});let e=document.querySelector(".iziToast.fadeInUp");e.style.paddingTop="20px",e.style.paddingBottom="20px",e=document.querySelector(".iziToast>.iziToast-body .iziToast-texts"),e.style.maxWidth="322px"}const p=document.querySelector(".gallery"),h=new m(".gallery a",{captions:!0,captionSelector:"img",captionType:"attr",captionsData:"alt",captionPosition:"bottom"});function b(r){if(r.hits.length===0){c("Sorry, there are no images matching your search query. Please try again!");return}p.innerHTML="";const e=r.hits.reduce((s,o)=>s+=`
+        <a class="gallery-link" href="${o.largeImageURL}">
+          <img
+              class="gallery-image"
+              src="${o.webformatURL}"
+              alt="${o.tags}"
+          />
+          <ul class="property-list">
+            <li class="property-item">
+                <p class="property-title">Likes</p>
+                <p class="property-value">${o.likes}</p>
+            </li>
+            <li class="property-item">
+                <p class="property-title">Views</p>
+                <p class="property-value">${o.views}</p>
+            </li>
+            <li class="property-item">
+                <p class="property-title">Comments</p>
+                <p class="property-value">${o.comments}</p>
+            </li>
+            <li class="property-item">
+                <p class="property-title">Downloads</p>
+                <p class="property-value">${o.downloads}</p>
+            </li>
+          </ul>  
+          </a>`,"");p.insertAdjacentHTML("beforeend",e),h.refresh()}const u={key:"41460845-2ab95350f4581127087fd5faf",q:"",image_type:"photo",orientation:"horizontal",safesearch:!0},i=document.querySelector(".search-btn"),d=document.querySelector(".loading-message");function w(r){d.style.display="block",i.disabled=!0,i.blur(),S(r).then(e=>b(e)).catch(e=>{console.log(e)}).finally(()=>{d.style.display="none",i.disabled=!1})}function S(r){u.q=r;const e=new URLSearchParams(u);return setTimeout(()=>{},5e3),fetch(`https://pixabay.com/api/?${e.toString()}`).then(s=>{if(!s.ok)throw new Error(s.status);return s.json()}).catch(s=>c(s))}const n=document.querySelector(".search-form");document.querySelector(".loading-message").style.display="none";n.addEventListener("submit",r=>{r.preventDefault();let e=n.elements.search.value.trim();if(!e){c("Search must be filled!");return}n.reset(),w(e)});
 //# sourceMappingURL=commonHelpers.js.map

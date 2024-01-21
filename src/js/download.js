@@ -1,47 +1,58 @@
 import { renderImages } from './render-html';
 import { createMessage } from './notifications';
 
-const searchParamsObject = {
-  key: '41460845-2ab95350f4581127087fd5faf',
-  q: '',
-  image_type: 'photo',
-  orientation: 'horizontal',
-  safesearch: true,
-};
-
 const buttonEl = document.querySelector('.search-btn');
 const loadingTextEl = document.querySelector('.loading-message');
+const loaderEl = document.querySelector('.loader');
 
 export function downloadImages(searchKey) {
-  loadingTextEl.style.display = 'block';
+  loaderEl.style.display = 'block';
   buttonEl.disabled = true;
   buttonEl.blur();
+  galleryEl.innerHTML = '';
 
-  // // add this timeout to demostate css-loader
-  // setTimeout(() => {
   fetchImages(searchKey)
     .then(images => renderImages(images))
     .catch(error => {
-      console.log(error);
+      console.error(error);
+      createMessage('Error fetching images. Please try again later.');
     })
     .finally(() => {
-      loadingTextEl.style.display = 'none';
+      loaderEl.style.display = 'none';
       buttonEl.disabled = false;
     });
-  // }, 2500);
 }
 
 function fetchImages(searchText) {
-  searchParamsObject.q = searchText;
+  const apiKey = '41460845-2ab95350f4581127087fd5faf';
+  const searchParamsObject = {
+    key: apiKey,
+    q: searchText,
+    image_type: 'photo',
+    orientation: 'horizontal',
+    safesearch: true,
+  };
   const searchParams = new URLSearchParams(searchParamsObject);
 
-  setTimeout(() => {}, 5000);
   return fetch(`https://pixabay.com/api/?${searchParams.toString()}`)
     .then(response => {
       if (!response.ok) {
-        throw new Error(response.status);
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
       return response.json();
     })
-    .catch(error => createMessage(error));
+    .then(data => {
+      if (data.hits && data.hits.length > 0) {
+        return data;
+      } else {
+        throw new Error('No images found.');
+      }
+    })
+    .catch(error => {
+      console.error('Fetch error:', error);
+      createMessage('Error fetching images. Please try again later.');
+      throw error;
+    });
 }
+
+const galleryEl = document.querySelector('.gallery');
